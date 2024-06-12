@@ -72,10 +72,15 @@ def get_conversational_chain():
 @app.post("/upload/")
 async def upload(files: list[UploadFile]):
     try:
+        logger.info("Starting file upload processing")
         pdf_docs = [await file.read() for file in files]
+        logger.info(f"Read {len(pdf_docs)} PDF documents")
         raw_text = get_pdf_text(pdf_docs)
+        logger.info(f"Extracted text from PDFs")
         text_chunks = get_text_chunks(raw_text)
+        logger.info(f"Split text into {len(text_chunks)} chunks")
         get_vector_store(text_chunks)
+        logger.info(f"Vector store created and saved")
         return {"status": "success"}
     except Exception as e:
         logger.error(f"Error processing upload: {e}")
@@ -98,4 +103,5 @@ async def ask_question(question_request: QuestionRequest):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port, reload=True)
