@@ -5,3 +5,7 @@ PyPDF2
 chromadb
 faiss-cpu
 langchain_google_genai
+pymupdf
+fitz
+cors
+uvicorn
