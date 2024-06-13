@@ -26,7 +26,7 @@ app = FastAPI()
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://pdfchat-frontend-h30m8qb9i-tejassriavinashagmailcoms-projects.vercel.app"],  # Adjust this to match your frontend origin
+    allow_origins=["https://mypdfchat.vercel.app"],  # Adjust this to match your frontend origin
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
