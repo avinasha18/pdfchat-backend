@@ -8,6 +8,8 @@ from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGener
 from langchain.vectorstores import FAISS
 from langchain.chains.question_answering import load_qa_chain
 from langchain.prompts import PromptTemplate
+from fastapi.staticfiles import StaticFiles
+
 import os
 from dotenv import load_dotenv
 import logging
@@ -20,10 +22,17 @@ os.environ["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY")
 
 app = FastAPI()
 
+
+app.mount("/static", StaticFiles(directory="../frontend/myapp/build/"), name="static")
+
+@app.get("/")
+async def serve_frontend():
+    return FileResponse("../frontend/build/index.html")
+
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://mypdfchat.vercel.app/"],  # Adjust this to match your frontend origin
+    allow_origins=["https://mypdfchat.vercel.app"],  # Adjust this to match your frontend origin
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
