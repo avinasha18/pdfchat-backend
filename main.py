@@ -23,12 +23,6 @@ os.environ["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY")
 app = FastAPI()
 
 
-app.mount("/static", StaticFiles(directory="../frontend/myapp/build/"), name="static")
-
-@app.get("/")
-async def serve_frontend():
-    return FileResponse("../frontend/build/index.html")
-
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
